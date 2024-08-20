@@ -1,0 +1,8 @@
+apiVersion: kubeflow.org/v1
+kind: Profile
+metadata:
+  name: projet1
+spec:
+  owner:
+    kind: User
+    name: pierre.jiji@mcn.gouv.qc.ca
