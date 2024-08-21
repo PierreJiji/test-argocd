@@ -1,62 +1,62 @@
-apiVersion: eksctl.io/v1alpha1
-kind: ClusterConfig
+# apiVersion: eksctl.io/v1alpha1
+# kind: ClusterConfig
 
-metadata:
-  name: {{ .Values.CLUSTER_NAME }}
-  region: {{ .Values.REGION }}
-  tags:
-    ${TAG_KEY}: {{ .Values.TAG_VALUE}}
+# metadata:
+#   name: {{ .Values.CLUSTER_NAME }}
+#   region: {{ .Values.REGION }}
+#   tags:
+#     ${TAG_KEY}: {{ .Values.TAG_VALUE}}
 
-iam:
-  withOIDC: true
-  serviceAccounts:
-  - metadata:
-      name: {{ .Values.SERVICE_ACCOUNT_NAME }}
-      namespace: {{ .Values.PROJECT_NAME }}
-      labels:
-        ${TAG_KEY}: {{ .Values.TAG_VALUE}}
-    roleName: "{{ .Values.PROJECT_NAME }}-role"
-    attachPolicy:
-      Version: "2012-10-17"
-      Statement:
-      - Effect: Allow
-        Action:
-        - kms:Encrypt
-        - kms:Decrypt
-        - kms:ReEncrypt*
-        - kms:GenerateDataKey*
-        - kms:DescribeKey
-        - sts:AssumeRole
-        Resource:
-        - ${KMS_S3_ARN}
-      - Effect: Allow
-        Action:
-        - sts:AssumeRole
-        Resource: "arn:aws:iam:::role/{{ .Values.PROJECT_NAME }}-role"
-      - Effect: Allow
-        Action:
-        - s3:*
-        - s3-object-lambda:*
-        Resource: 
-        - "arn:aws:s3:::{{ .Values.BUCKET_NAME_ARTIFACT }}/*"
-        - "arn:aws:s3:::{{ .Values.BUCKET_NAME_ARTIFACT }}"
-      - Effect: Allow
-        Action:
-        - s3:Get*
-        - s3:Describe*
-        - s3-object-lambda:Get*
-        - s3-object-lambda:List*
-        Resource: 
-        - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-dataset-store/*"
-        - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-dataset-store"
-      - Effect: Allow
-        Action:
-        - s3:Get*
-        - s3:Describe*
-        - s3:PutObject*
-        - s3:TagResource
-        - s3-object-lambda:Get*
-        - s3-object-lambda:List*
-        Resource: 
-        - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-model-store/*"
-        - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-model-store"
+# iam:
+#   withOIDC: true
+#   serviceAccounts:
+#   - metadata:
+#       name: {{ .Values.SERVICE_ACCOUNT_NAME }}
+#       namespace: {{ .Values.PROJECT_NAME }}
+#       labels:
+#         ${TAG_KEY}: {{ .Values.TAG_VALUE}}
+#     roleName: "{{ .Values.PROJECT_NAME }}-role"
+#     attachPolicy:
+#       Version: "2012-10-17"
+#       Statement:
+#       - Effect: Allow
+#         Action:
+#         - kms:Encrypt
+#         - kms:Decrypt
+#         - kms:ReEncrypt*
+#         - kms:GenerateDataKey*
+#         - kms:DescribeKey
+#         - sts:AssumeRole
+#         Resource:
+#         - ${KMS_S3_ARN}
+#       - Effect: Allow
+#         Action:
+#         - sts:AssumeRole
+#         Resource: "arn:aws:iam:::role/{{ .Values.PROJECT_NAME }}-role"
+#       - Effect: Allow
+#         Action:
+#         - s3:*
+#         - s3-object-lambda:*
+#         Resource: 
+#         - "arn:aws:s3:::{{ .Values.BUCKET_NAME_ARTIFACT }}/*"
+#         - "arn:aws:s3:::{{ .Values.BUCKET_NAME_ARTIFACT }}"
+#       - Effect: Allow
+#         Action:
+#         - s3:Get*
+#         - s3:Describe*
+#         - s3-object-lambda:Get*
+#         - s3-object-lambda:List*
+#         Resource: 
+#         - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-dataset-store/*"
+#         - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-dataset-store"
+#       - Effect: Allow
+#         Action:
+#         - s3:Get*
+#         - s3:Describe*
+#         - s3:PutObject*
+#         - s3:TagResource
+#         - s3-object-lambda:Get*
+#         - s3-object-lambda:List*
+#         Resource: 
+#         - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-model-store/*"
+#         - "arn:aws:s3:::{{ .Values.PROJECT_NAME }}-model-store"
