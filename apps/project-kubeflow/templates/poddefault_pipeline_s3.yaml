@@ -1,49 +1,49 @@
-apiVersion: kubeflow.org/v1alpha1
-kind: PodDefault
-metadata:
-  name: access-data-s3-role
-  namespace: {{ .Values.PROJECT_NAME }}
-  annotations:
-    eks.amazonaws.com/role-arn: {{ .Values.ROLE_ARN }}
-spec:
-  desc: Allow access S3 for Notebook & Pipeline
-  selector:
-    matchLabels:
-      access-ml-pipeline: "true"
-  env:
-    - name: KF_PIPELINES_SA_TOKEN_PATH
-      value: /var/run/secrets/kubeflow/pipelines/token
-    - name: AWS_REGION
-      value: ca-central-1
-    - name: AWS_ROLE_ARN
-      value: {{ .Values.ROLE_ARN }}
-    - name: AWS_WEB_IDENTITY_TOKEN_FILE
-      value: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
-    - name: AWS_STS_REGIONAL_ENDPOINTS
-      value: regional
-    - name: AWS_DEFAULT_REGION
-      value: ca-central-1
-  volumes:
-    - name: volume-kf-pipeline-token
-      projected:
-        sources:
-          - serviceAccountToken:
-              path: token
-              expirationSeconds: 7200
-              ## defined by the `TOKEN_REVIEW_AUDIENCE` environment variable on the `ml-pipeline` deployment
-              audience: pipelines.kubeflow.org
-    - name: aws-iam-token
-      projected:
-        defaultMode: 420
-        sources:
-          - serviceAccountToken:
-              path: token
-              expirationSeconds: 86400
-              audience: sts.amazonaws.com
-  volumeMounts:
-    - mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
-      name: aws-iam-token
-      readOnly: true
-    - mountPath: /var/run/secrets/kubeflow/pipelines
-      name: volume-kf-pipeline-token
-      readOnly: true
+# apiVersion: kubeflow.org/v1alpha1
+# kind: PodDefault
+# metadata:
+#   name: access-data-s3-role
+#   namespace: {{ .Values.PROJECT_NAME }}
+#   annotations:
+#     eks.amazonaws.com/role-arn: {{ .Values.ROLE_ARN }}
+# spec:
+#   desc: Allow access S3 for Notebook & Pipeline
+#   selector:
+#     matchLabels:
+#       access-ml-pipeline: "true"
+#   env:
+#     - name: KF_PIPELINES_SA_TOKEN_PATH
+#       value: /var/run/secrets/kubeflow/pipelines/token
+#     - name: AWS_REGION
+#       value: ca-central-1
+#     - name: AWS_ROLE_ARN
+#       value: {{ .Values.ROLE_ARN }}
+#     - name: AWS_WEB_IDENTITY_TOKEN_FILE
+#       value: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+#     - name: AWS_STS_REGIONAL_ENDPOINTS
+#       value: regional
+#     - name: AWS_DEFAULT_REGION
+#       value: ca-central-1
+#   volumes:
+#     - name: volume-kf-pipeline-token
+#       projected:
+#         sources:
+#           - serviceAccountToken:
+#               path: token
+#               expirationSeconds: 7200
+#               ## defined by the `TOKEN_REVIEW_AUDIENCE` environment variable on the `ml-pipeline` deployment
+#               audience: pipelines.kubeflow.org
+#     - name: aws-iam-token
+#       projected:
+#         defaultMode: 420
+#         sources:
+#           - serviceAccountToken:
+#               path: token
+#               expirationSeconds: 86400
+#               audience: sts.amazonaws.com
+#   volumeMounts:
+#     - mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
+#       name: aws-iam-token
+#       readOnly: true
+#     - mountPath: /var/run/secrets/kubeflow/pipelines
+#       name: volume-kf-pipeline-token
+#       readOnly: true
