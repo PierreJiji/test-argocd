@@ -1,7 +1,7 @@
 apiVersion: kubeflow.org/v1
 kind: Profile
 metadata:
-  name: projet1
+  name: projet2
 spec:
   owner:
     kind: User
