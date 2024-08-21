@@ -1,0 +1,9 @@
+CLUSTER_NAME: "eks-cluster-test"
+PROJECT_NAME: "project3"
+USER_EMAIL: "pierre.jiji@mcn.gouv.qc.ca"
+REGION: "ca-central-1"
+SERVICE_ACCOUNT_NAME: "default"
+BUCKET_NAME_ARTIFACT: "test2-kf-artifact-store"
+TAG_VALUE: "project3"
+ROLE_ARN: "arn:aws:iam::131485263174:role/eks-cluster-test-cluster-role"
+
